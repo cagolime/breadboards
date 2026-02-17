@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Breadboards - How To Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 11px;
+            background-color: #f5e6f0;
+            color: #333;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 3px solid #b8d4e8;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+        }
+        
+        .ascii-border-top {
+            background-color: #d4e8f5;
+            padding: 8px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            line-height: 1.2;
+            color: #5a8fb8;
+            border-bottom: 2px solid #b8d4e8;
+            white-space: pre;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(to bottom, #f0f8ff, #e8f4f8);
+            border-bottom: 2px solid #b8d4e8;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            color: #5a8fb8;
+            font-weight: normal;
+            letter-spacing: 5px;
+            margin-bottom: 5px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .header p {
+            font-size: 11px;
+            color: #7a9db8;
+        }
+        
+        .sidebar {
+            float: left;
+            width: 180px;
+            background-color: #e8f4f8;
+            border-right: 2px solid #b8d4e8;
+            min-height: 600px;
+            padding: 15px;
+        }
+        
+        .sidebar h3 {
+            font-size: 12px;
+            color: #5a8fb8;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .sidebar a {
+            color: #5a8fb8;
+            text-decoration: none;
+            font-size: 11px;
+            line-height: 1.8;
+            display: block;
+        }
+        
+        .sidebar a:hover {
+            color: #3a6f98;
+            text-decoration: underline;
+        }
+        
+        .sidebar-ascii {
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            color: #7a9db8;
+            margin: 15px 0;
+            line-height: 1.1;
+            white-space: pre;
+        }
+        
+        .content {
+            margin-left: 180px;
+            padding: 25px;
+            min-height: 600px;
+        }
+        
+        .admin-controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #fff8e1;
+            border: 1px solid #d4a574;
+            padding: 8px;
+            font-size: 10px;
+            width: 200px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .admin-controls h3 {
+            font-size: 10px;
+            color: #b8860b;
+            margin-bottom: 8px;
+        }
+        
+        .admin-login {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 8px;
+            font-size: 10px;
+            width: 150px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        
+        .admin-login input {
+            width: 100%;
+            padding: 4px;
+            font-size: 10px;
+            margin: 5px 0;
+            border: 1px solid #999;
+        }
+        
+        .admin-controls button {
+            background-color: #b8d4e8;
+            border: 1px solid #5a8fb8;
+            padding: 4px 8px;
+            font-size: 10px;
+            cursor: pointer;
+            margin-right: 3px;
+            margin-bottom: 3px;
+        }
+        
+        .admin-controls button:hover {
+            background-color: #a8c4d8;
+        }
+        
+        .admin-controls input[type="color"] {
+            width: 40px;
+            height: 20px;
+            border: 1px solid #999;
+            cursor: pointer;
+        }
+        
+        .admin-controls input[type="file"] {
+            font-size: 9px;
+            margin: 3px 0;
+        }
+        
+        .category-bar {
+            border-bottom: 2px solid #b8d4e8;
+            padding: 10px 0;
+            margin-bottom: 20px;
+            font-size: 11px;
+        }
+
+        .category-bar span {
+            color: #7a9db8;
+            margin-right: 8px;
+        }
+
+        .category-bar a {
+            color: #5a8fb8;
+            text-decoration: none;
+            margin-right: 15px;
+            padding: 2px 6px;
+            border: 1px solid transparent;
+        }
+
+        .category-bar a:hover {
+            text-decoration: underline;
+        }
+
+        .category-bar a.active {
+            border: 1px solid #5a8fb8;
+            background-color: #e8f4f8;
+        }
+
+        .post {
+            border-bottom: 1px dashed #b8d4e8;
+            padding: 18px 0;
+            position: relative;
+        }
+
+        .post:last-child {
+            border-bottom: none;
+        }
+
+        .post-tag {
+            font-size: 10px;
+            color: #fff;
+            background-color: #5a8fb8;
+            padding: 1px 7px;
+            margin-bottom: 6px;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+
+        .post-tag.tutorials {
+            background-color: #7ab88a;
+        }
+
+        .post-tag.information {
+            background-color: #5a8fb8;
+        }
+
+        .post img {
+            max-width: 100%;
+            border: 1px solid #b8d4e8;
+            margin: 10px 0;
+            display: block;
+        }
+
+        .post-description {
+            font-size: 11px;
+            color: #333;
+            line-height: 1.7;
+            margin-top: 6px;
+        }
+
+        .post-delete {
+            position: absolute;
+            top: 18px;
+            right: 0;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 2px 7px;
+            font-size: 10px;
+            cursor: pointer;
+            font-family: 'Courier New', Courier, monospace;
+            display: none;
+        }
+
+        .admin-active .post-delete {
+            display: block;
+        }
+
+        .post-delete:hover {
+            background-color: #ff5252;
+        }
+
+        .admin-controls select {
+            width: 100%;
+            font-size: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            border: 1px solid #ccc;
+            padding: 3px;
+            margin: 3px 0;
+            background-color: #fff;
+        }
+        
+        .footer {
+            clear: both;
+            text-align: center;
+            padding: 15px;
+            background-color: #e8f4f8;
+            border-top: 2px solid #b8d4e8;
+            font-size: 10px;
+            color: #7a9db8;
+        }
+        
+        .ascii-border-bottom {
+            background-color: #d4e8f5;
+            padding: 8px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            line-height: 1.2;
+            color: #5a8fb8;
+            border-top: 2px solid #b8d4e8;
+            white-space: pre;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ascii-border-top">.-~*~-._.-~*~-._.-~*~-._.-~*~-._.-~*~-._.-~*~-._.-~*~-._.-~*~-._.-~*~-._.-~*~-._.-~*~-._.-~*~-.</div>
+        
+        <div class="header">
+            <h1>BREADBOARDS</h1>
+            <p>Your Complete Guide to Electronic Prototyping</p>
+        </div>
+        
+        <div class="sidebar">
+            <h3>Navigation</h3>
+            <div>
+                - <a href="#getting-started">Getting Started</a><br>
+                - <a href="#basic-components">Basic Components</a><br>
+                - <a href="#circuit-building">Circuit Building</a><br>
+                - <a href="#troubleshooting">Troubleshooting</a><br>
+                - <a href="#advanced-tips">Advanced Tips</a>
+            </div>
+            
+            <div class="sidebar-ascii">
+    ___
+   |   |
+   |___|
+   |   |
+   |___|
+  /     \
+ /_______\
+            </div>
+            
+            <div class="sidebar-ascii">
+ .-------.
+ |  LED  |
+ |   ^   |
+ |  / \  |
+ '-------'
+            </div>
+            
+            <div class="sidebar-ascii">
+~*~*~*~*~
+*~*~*~*~*
+~*~*~*~*~
+*~*~*~*~*
+            </div>
+        </div>
+        
+        <div class="content" id="mainContent">
+            <div id="adminLogin" class="admin-login">
+                <div style="font-weight: bold; margin-bottom: 5px;">Admin</div>
+                <input type="password" id="adminPassword" placeholder="Password">
+                <button onclick="checkPassword()" style="width: 100%; padding: 4px; font-size: 10px; background-color: #b8d4e8; border: 1px solid #5a8fb8; cursor: pointer; font-family: 'Courier New', Courier, monospace;">Login</button>
+                <div id="loginError" style="color: #ff6b6b; font-size: 9px; margin-top: 3px; display: none;">Incorrect password</div>
+            </div>
+            
+            <div class="admin-controls" id="adminControls">
+                <h3>// Admin Panel</h3>
+                <div style="margin-bottom: 8px;">
+                    <label style="font-size: 9px;">BG Color: </label>
+                    <input type="color" id="bgColorPicker" value="#f5e6f0">
+                    <button onclick="changeBackgroundColor()">Apply</button>
+                </div>
+                <div>
+                    <label style="font-size: 9px;">Photo: </label>
+                    <input type="file" id="photoUpload" accept="image/*">
+                </div>
+                <div style="margin-top: 6px;">
+                    <label style="font-size: 9px;">Description: </label>
+                    <textarea id="photoDescription" placeholder="Write post description..."></textarea>
+                </div>
+                <div style="margin-top: 6px;">
+                    <label style="font-size: 9px;">#tag: </label>
+                    <select id="photoTag">
+                        <option value="tutorials">#tutorials</option>
+                        <option value="information">#information</option>
+                    </select>
+                </div>
+                <div style="margin-top: 6px;">
+                    <button onclick="addPost()" style="width: 100%;">Post</button>
+                </div>
+                <div style="margin-top: 8px;">
+                    <button onclick="logout()" style="width: 100%; background-color: #ffcccc;">Logout</button>
+                </div>
+            </div>
+
+            <div class="category-bar">
+                <span>view:</span>
+                <a href="#" class="active" onclick="filterPosts('all'); return false;">all posts</a>
+                <a href="#" onclick="filterPosts('tutorials'); return false;">#tutorials</a>
+                <a href="#" onclick="filterPosts('information'); return false;">#information</a>
+            </div>
+
+            <div id="postFeed">
+                <!-- posts render here -->
+            </div>
+        </div>
+        
+        <div style="clear: both;"></div>
+        
+        <div class="footer">
+            <div class="sidebar-ascii" style="margin: 0;">
+*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+            </div>
+            Copyright 2008 - Breadboards Guide - All Rights Reserved
+        </div>
+        
+        <div class="ascii-border-bottom">'-~*~-._.-~*~-._.-~*~-._.-~*~-._.-~*~-._.-~*~-._.-~*~-._.-~*~-._.-~*~-._.-~*~-._.-~*~-'</div>
+    </div>
+
+    <script>
+        const ADMIN_PASSWORD = 'breadboard2008';
+        const STORAGE_KEY = 'breadboards_posts';
+        const BG_KEY = 'breadboards_bg';
+        let postData = [];
+        let currentFilter = 'all';
+        let isAdminActive = false;
+
+        function savePosts() {
+            // store posts without the image src to avoid localStorage size limits
+            // images are stored separately by post id
+            const meta = postData.map(p => ({
+                id: p.id,
+                description: p.description,
+                tag: p.tag,
+                date: p.date
+            }));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(meta));
+            postData.forEach(p => {
+                localStorage.setItem('breadboards_img_' + p.id, p.src);
+            });
+        }
+
+        function loadPosts() {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return [];
+            const meta = JSON.parse(raw);
+            return meta.map(p => ({
+                ...p,
+                src: localStorage.getItem('breadboards_img_' + p.id) || ''
+            }));
+        }
+
+        function checkPassword() {
+            const password = document.getElementById('adminPassword').value;
+            const loginError = document.getElementById('loginError');
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('adminLogin').style.display = 'none';
+                document.getElementById('adminControls').style.display = 'block';
+                isAdminActive = true;
+                document.getElementById('mainContent').classList.add('admin-active');
+                loginError.style.display = 'none';
+            } else {
+                loginError.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            document.getElementById('adminLogin').style.display = 'block';
+            document.getElementById('adminControls').style.display = 'none';
+            document.getElementById('adminPassword').value = '';
+            isAdminActive = false;
+            document.getElementById('mainContent').classList.remove('admin-active');
+        }
+
+        function changeBackgroundColor() {
+            const color = document.getElementById('bgColorPicker').value;
+            document.body.style.backgroundColor = color;
+            localStorage.setItem(BG_KEY, color);
+        }
+
+        function addPost() {
+            const fileInput = document.getElementById('photoUpload');
+            const descriptionInput = document.getElementById('photoDescription');
+            const tagInput = document.getElementById('photoTag');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Please select a photo first!');
+                return;
+            }
+
+            const description = descriptionInput.value.trim() || '';
+            const tag = tagInput.value;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                postData.unshift({
+                    id: Date.now(),
+                    src: e.target.result,
+                    description: description,
+                    tag: tag,
+                    date: new Date().toLocaleDateString('en-GB')
+                });
+                savePosts();
+                renderPosts();
+                fileInput.value = '';
+                descriptionInput.value = '';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function deletePost(id) {
+            if (confirm('Delete this post?')) {
+                postData = postData.filter(p => p.id !== id);
+                localStorage.removeItem('breadboards_img_' + id);
+                savePosts();
+                renderPosts();
+            }
+        }
+
+        function filterPosts(category) {
+            currentFilter = category;
+            document.querySelectorAll('.category-bar a').forEach(a => a.classList.remove('active'));
+            event.target.classList.add('active');
+            renderPosts();
+        }
+
+        function renderPosts() {
+            const feed = document.getElementById('postFeed');
+            feed.innerHTML = '';
+
+            const filtered = currentFilter === 'all'
+                ? postData
+                : postData.filter(p => p.tag === currentFilter);
+
+            if (filtered.length === 0) {
+                feed.innerHTML = '<div style="color: #aaa; font-size: 11px; padding: 20px 0;">-- no posts yet --</div>';
+                return;
+            }
+
+            filtered.forEach(post => {
+                const div = document.createElement('div');
+                div.className = 'post';
+                div.innerHTML = `
+                    <button class="post-delete" onclick="deletePost(${post.id})">[ delete ]</button>
+                    <div class="post-tag ${post.tag}">#${post.tag}</div>
+                    <img src="${post.src}" alt="post image">
+                    <div class="post-description">${post.description}</div>
+                    <div style="font-size: 9px; color: #aaa; margin-top: 8px;">posted: ${post.date}</div>
+                `;
+                feed.appendChild(div);
+            });
+        }
+
+        window.onload = function() {
+            postData = loadPosts();
+            const savedBg = localStorage.getItem(BG_KEY);
+            if (savedBg) {
+                document.body.style.backgroundColor = savedBg;
+                document.getElementById('bgColorPicker').value = savedBg;
+            }
+            renderPosts();
+        };
+    </script>
+</body>
+</html>
