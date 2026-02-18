@@ -1,4 +1,4 @@
-# breadboards
+# breadboards - this and all info is subject to change based on how i feel 
 a website to better understand breadboards and breadboard patters. i thought its hard to do youtube courses, so try building something by need to understand it. this is a webpage all about breadboards. 
 
 im going to put my research on breadboards in this readme: you can ignore all this
