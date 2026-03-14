@@ -407,6 +407,15 @@
         const ADMIN_PASSWORD = 'breadboard2008';
         const STORAGE_KEY = 'breadboards_posts';
         const BG_KEY = 'breadboards_bg';
+        const DEFAULT_POSTS = [
+            {
+                id: 'william-gibbs-rogers',
+                src: 'william-gibbs-rogers-rn-18-a1-02.webp',
+                description: 'Funnily enough, the humble breadboard - or certain of them - can be traced back to one of the foremost carvers of Victorian times, one William Gibbs Rogers (1792 - 1875) who was inspired by Grinling Gibbons and made his reputation restoring and replacing rotting drops and swags across the stately homes of England\n\nHe created many masterful sculptures, and was patronised by the Great and the Good, including Queen Victoria and Prince Albert. His most notable sculptures can be referred to in the summaries above.',
+                tag: 'information',
+                date: '14/03/2026'
+            }
+        ];
         let postData = [];
         let currentFilter = 'all';
         let isAdminActive = false;
@@ -428,12 +437,15 @@
 
         function loadPosts() {
             const raw = localStorage.getItem(STORAGE_KEY);
-            if (!raw) return [];
+            if (!raw) return [...DEFAULT_POSTS];
             const meta = JSON.parse(raw);
-            return meta.map(p => ({
+            const storedPosts = meta.map(p => ({
                 ...p,
                 src: localStorage.getItem('breadboards_img_' + p.id) || ''
             }));
+            const storedIds = new Set(storedPosts.map(p => String(p.id)));
+            const missingDefaults = DEFAULT_POSTS.filter(p => !storedIds.has(String(p.id)));
+            return [...missingDefaults, ...storedPosts];
         }
 
         function checkPassword() {
@@ -531,7 +543,7 @@
                     <button class="post-delete" onclick="deletePost(${post.id})">[ delete ]</button>
                     <div class="post-tag ${post.tag}">#${post.tag}</div>
                     <img src="${post.src}" alt="post image">
-                    <div class="post-description">${post.description}</div>
+                    <div class="post-description">${post.description.replace(/\n/g, '<br><br>')}</div>
                     <div style="font-size: 9px; color: #aaa; margin-top: 8px;">posted: ${post.date}</div>
                 `;
                 feed.appendChild(div);
